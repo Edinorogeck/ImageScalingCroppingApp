@@ -84,6 +84,51 @@ void MainWindow::on_browseButton_clicked()
 
 void MainWindow::on_saveButton_clicked()
 {
+    QString imagePath = QFileDialog::getSaveFileName(this, tr("Сохранить изображение"), "", tr("Images (*.png *.jpg)"));
+    if (!imagePath.isEmpty())
+    {
+        if(!pix->isNull())  // Убедимся, что изображение для сохранения существует
+        {
+            QPixmap tempPix = pix->scaled(drawSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            QPoint tempPos(drawPos.x() - drawSize.width() / 2, drawPos.y() - drawSize.height() / 2);
+            QPixmap result = tempPix.copy(QRect(tempPos, drawSize));
 
+            if(result.save(imagePath))
+            {
+                QMessageBox::information(this, tr("Сохранение"), tr("Изображение успешно сохранено."));
+            }
+            else
+            {
+                QMessageBox::warning(this, tr("Сохранение"), tr("Ошибка при сохранении изображения."));
+            }
+        }
+        else
+        {
+            QMessageBox::warning(this, tr("Ошибка"), tr("Изображение отсутствует."));
+        }
+
+    }
+
+}
+
+
+void MainWindow::on_scaleSlider_valueChanged(int value)
+{
+    drawSize = imageSize * value / 100;
+    update();
+}
+
+
+void MainWindow::on_horizontalSlider_valueChanged(int value)
+{
+    drawPos.setX(value * drawSize.width() / 100 * 0.5);
+    update();
+}
+
+
+void MainWindow::on_verticalSlider_valueChanged(int value)
+{
+    drawPos.setY(value * drawSize.height() / 100 * 0.5);
+    update();
 }
 

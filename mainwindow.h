@@ -30,6 +30,12 @@ private slots:
 
     void on_saveButton_clicked();
 
+    void on_scaleSlider_valueChanged(int value);
+
+    void on_horizontalSlider_valueChanged(int value);
+
+    void on_verticalSlider_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
     bool canDraw;
